@@ -2,11 +2,9 @@
 
 module pipe_reg_tb;
 
-// Parameters
 parameter WIDTH = 8;
 parameter CLK_PERIOD = 10;
 
-// Testbench signals
 reg clk;
 reg rst_n;
 reg stall;
@@ -14,7 +12,6 @@ reg flush;
 reg [WIDTH-1:0] din;
 wire [WIDTH-1:0] dout;
 
-// Instantiate the DUT (Device Under Test)
 pipe_reg #(.WIDTH(WIDTH)) uut (
     .clk(clk),
     .rst_n(rst_n),
@@ -24,15 +21,12 @@ pipe_reg #(.WIDTH(WIDTH)) uut (
     .dout(dout)
 );
 
-// Clock generation
 initial begin
     clk = 0;
     forever #(CLK_PERIOD/2) clk = ~clk;
 end
 
-// Test sequence
 initial begin
-    // Initialize signals
     rst_n = 0;
     stall = 0;
     flush = 0;
