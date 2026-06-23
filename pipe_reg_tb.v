@@ -38,16 +38,14 @@ initial begin
     flush = 0;
     din = 8'h00;
     
-    // Test 1: Reset verification
-    // Verify that dout is cleared to 0 when rst_n = 0
+    // Test 1: 
     $display("\n========== Test 1: Reset Verification ==========");
     #(CLK_PERIOD * 2);
     rst_n = 1;
     #CLK_PERIOD;
     $display("After reset, dout = 8'h%02h (expected: 8'h00)", dout);
     
-    // Test 2: Normal data transfer
-    // Verify normal pipeline operation without stall or flush
+    // Test 2:
     $display("\n========== Test 2: Normal Data Transfer ==========");
     din = 8'hAA;
     #CLK_PERIOD;
@@ -55,8 +53,7 @@ initial begin
     #CLK_PERIOD;
     $display("Output: 8'h%02h (expected: 8'hAA)", dout);
     
-    // Test 3: Stall verification - hold value
-    // Set stall = 1, verify dout keeps previous value
+    // Test 3: 
     $display("\n========== Test 3: Stall Verification ==========");
     din = 8'hBB;
     stall = 1;
@@ -65,23 +62,20 @@ initial begin
     #CLK_PERIOD;
     $display("stall still 1, Output: 8'h%02h (expected: 8'hAA - held)", dout);
     
-    // Test 4: Release stall and verify normal operation resumes
-    // Set stall = 0, verify normal data transfer resumes
+    // Test 4: 
     $display("\n========== Test 4: Release Stall ==========");
     stall = 0;
     #CLK_PERIOD;
     $display("stall=0, Output: 8'h%02h (expected: 8'hBB)", dout);
     
-    // Test 5: Flush verification - immediate clear
-    // Set flush = 1, verify dout is immediately cleared to 0
+    // Test 5: 
     $display("\n========== Test 5: Flush Verification ==========");
     din = 8'hCC;
     flush = 1;
     #CLK_PERIOD;
     $display("flush=1, Output: 8'h%02h (expected: 8'h00 - flushed)", dout);
     
-    // Test 6: Normal operation after flush
-    // Set flush = 0, verify normal operation resumes
+    // Test 6:
     $display("\n========== Test 6: Normal Operation After Flush ==========");
     flush = 0;
     din = 8'hDD;
@@ -90,8 +84,7 @@ initial begin
     #CLK_PERIOD;
     $display("Output: 8'h%02h (expected: 8'hDD)", dout);
     
-    // Test 7: Combined stall and flush - stall takes priority
-    // Set both stall = 1 and flush = 1, verify flush takes priority
+    // Test 7:
     $display("\n========== Test 7: Stall and Flush Both Active ==========");
     din = 8'hEE;
     stall = 1;
@@ -99,8 +92,7 @@ initial begin
     #CLK_PERIOD;
     $display("stall=1, flush=1, Output: 8'h%02h (expected: 8'h00 - flushed)", dout);
     
-    // Test 8: Reset during operation
-    // Set rst_n = 0 during normal operation, verify immediate clear
+    // Test 8:
     $display("\n========== Test 8: Reset During Operation ==========");
     stall = 0;
     flush = 0;
@@ -110,8 +102,7 @@ initial begin
     #CLK_PERIOD;
     $display("rst_n=0, Output: 8'h%02h (expected: 8'h00 - reset)", dout);
     
-    // Test 9: Recovery after reset
-    // Set rst_n = 1, verify normal operation resumes
+    // Test 9: 
     $display("\n========== Test 9: Recovery After Reset ==========");
     rst_n = 1;
     din = 8'h99;
@@ -120,13 +111,11 @@ initial begin
     #CLK_PERIOD;
     $display("Output: 8'h%02h (expected: 8'h99)", dout);
     
-    // Finish simulation
     $display("\n========== Simulation Complete ==========\n");
     #(CLK_PERIOD * 2);
     $finish;
 end
 
-// Waveform dump (for GTKWave or similar tools)
 initial begin
     $dumpfile("pipe_reg_tb.vcd");
     $dumpvars(0, pipe_reg_tb);
